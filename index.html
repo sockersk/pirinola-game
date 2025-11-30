@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pirinola de Invitados – Mobile B</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <style>
+    :root{
+      --bg: #050505;
+      --card: #111827;
+      --verde: #16a34a;
+      --verde-oscuro: #166534;
+      --rojo: #dc2626;
+      --rojo-oscuro: #7f1d1d;
+      --crema: #fef3c7;
+      --amarillo: #facc15;
+      --dorado: #fbbf24;
+      --dorado-oscuro: #b45309;
+      --texto: #f9fafb;
+      --muted: #9ca3af;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body{
+      background:#000;
+      color:var(--texto);
+    }
+
+    .screen{
+      width:100vw;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:10px;
+    }
+
+    /* INTRO */
+    #introScreen{
+      background:rgba(0,0,0,0.9);
+      color:#fff;
+      flex-direction:column;
+      text-align:center;
+    }
+
+    .intro-card{
+      background:rgba(15,23,42,0.95);
+      border-radius:24px;
+      padding:22px 18px;
+      border:3px solid rgba(250,204,21,0.8);
+      max-width:430px;
+      max-height:96vh;
+      box-shadow:0 24px 48px rgba(0,0,0,0.9);
+      overflow-y:auto;
+    }
+
+    .intro-title{
+      font-size:26px;
+      font-weight:900;
+      letter-spacing:0.16em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    .intro-subtitle{
+      font-size:16px;
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+
+    .rules-list{
+      text-align:left;
+      font-size:15px;
+      line-height:1.6;
+      color:var(--crema);
+    }
+
+    .rules-list p{
+      margin-bottom:5px;
+    }
+
+    .intro-actions{
+      margin-top:18px;
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .next-btn,
+    .setup-btn{
+      padding:10px 20px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      box-shadow:0 0 16px rgba(250,250,250,0.25);
+    }
+
+    .next-btn{
+      background:linear-gradient(90deg,var(--verde-oscuro),var(--rojo-oscuro));
+      color:#f9fafb;
+    }
+
+    .setup-btn{
+      background:rgba(15,23,42,0.9);
+      color:var(--crema);
+      border:1px solid rgba(148,163,184,0.7);
+      box-shadow:none;
+    }
+
+    /* SETUP */
+    #setupScreen{
+      display:none;
+      background:rgba(0,0,0,0.9);
+      color:#fff;
+      flex-direction:column;
+      text-align:left;
+    }
+
+    .setup-card{
+      background:rgba(15,23,42,0.97);
+      border-radius:24px;
+      padding:18px 16px 16px;
+      border:3px solid rgba(148,163,184,0.8);
+      max-width:430px;
+      max-height:96vh;
+      box-shadow:0 24px 48px rgba(0,0,0,0.9);
+      overflow-y:auto;
+    }
+
+    .setup-title{
+      font-size:19px;
+      font-weight:900;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      margin-bottom:6px;
+      text-align:center;
+    }
+
+    .setup-subtitle{
+      font-size:12px;
+      color:var(--muted);
+      margin-bottom:8px;
+      text-align:center;
+    }
+
+    .setup-group{
+      margin-top:10px;
+      margin-bottom:6px;
+    }
+
+    .setup-label{
+      font-size:12px;
+      font-weight:600;
+      margin-bottom:3px;
+      display:block;
+    }
+
+    .setup-input{
+      width:100%;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.9);
+      background:rgba(15,23,42,0.9);
+      color:var(--texto);
+      font-size:12px;
+      outline:none;
+    }
+
+    .setup-checkbox-row{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--crema);
+      margin-top:3px;
+    }
+
+    .setup-checkbox-row input{
+      width:16px;
+      height:16px;
+    }
+
+    .setup-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:flex-end;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .setup-btn-secondary,
+    .setup-btn-primary{
+      padding:7px 16px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .setup-btn-secondary{
+      background:rgba(15,23,42,0.9);
+      color:var(--muted);
+      border:1px solid rgba(75,85,99,0.9);
+    }
+
+    .setup-btn-primary{
+      background:linear-gradient(90deg,var(--verde-oscuro),var(--rojo-oscuro));
+      color:#f9fafb;
+    }
+
+    .prize-row{
+      display:flex;
+      align-items:center;
+      gap:5px;
+      margin-bottom:5px;
+    }
+
+    .prize-row .setup-input{
+      padding:4px 8px;
+      font-size:11px;
+    }
+
+    .prize-label-input{
+      flex:1.3;
+    }
+
+    .prize-amount-input{
+      flex:0.7;
+      max-width:70px;
+    }
+
+    .prize-percent-input{
+      flex:0.6;
+      max-width:60px;
+    }
+
+    .prize-amount-placeholder{
+      flex:0.7;
+      font-size:10px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    /* GAME */
+    #gameScreen{
+      display:none;
+      position:relative;
+      background:rgba(0,0,0,0.9);
+    }
+
+    .back-btn{
+      position:absolute;
+      top:10px;
+      right:12px;
+      background:linear-gradient(90deg,#7f1d1d,#b91c1c);
+      color:white;
+      font-size:11px;
+      padding:5px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:700;
+      box-shadow:0 0 12px rgba(0,0,0,0.6);
+      z-index:10;
+    }
+
+    .overlay-root{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px;
+    }
+
+    .card{
+      background: radial-gradient(circle at top, rgba(250,204,21,0.22), transparent),
+                  linear-gradient(135deg, #020617, #020617 40%, #111827 100%);
+      border-radius:24px;
+      padding:18px 14px 18px;
+      border:3px solid rgba(250,204,21,0.8);
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      max-width:430px;
+      max-height:96vh;
+      color:var(--texto);
+      box-shadow:0 26px 60px rgba(0,0,0,0.95);
+      overflow:hidden;
+    }
+
+    .banner{
+      grid-column:1 / -1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:4px;
+      margin-bottom:2px;
+    }
+
+    .banner-franja{
+      height:5px;
+      flex:1;
+      border-radius:999px;
+    }
+    .franja-verde{background:#006847;}
+    .franja-blanca{background:#ffffff;}
+    .franja-roja{background:#ce1126;}
+
+    .title{
+      grid-column:1/-1;
+      text-align:center;
+      font-size:22px;
+      font-weight:900;
+      letter-spacing:0.18em;
+      text-transform:uppercase;
+      margin-top:2px;
+    }
+
+    .subtitle{
+      grid-column:1/-1;
+      text-align:center;
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:4px;
+    }
+    .subtitle b{color:var(--crema);}
+
+    .left{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      margin-top:2px;
+      margin-bottom:4px;
+    }
+
+    .pirinola-wrapper{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-top:2px;
+    }
+
+   .pirinola{
+  width:220px;
+  height:220px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  filter:drop-shadow(0 6px 8px rgba(0,0,0,0.6));
+}
+
+.pirinola-body{
+  width:200px;
+  height:200px;
+  border-radius:26px;
+  transform:rotate(45deg);
+  box-shadow:0 0 18px rgba(0,0,0,0.45);
+  border:3px solid rgba(124,45,18,0.7);
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#facc15,#f97316);
+}
+
+.pirinola-label{
+  position:absolute;
+  width:85%;
+  text-align:center;
+  font-size:26px;
+  font-weight:900;
+  text-transform:uppercase;
+  color:#111827;
+  line-height:1.2;
+  transform:rotate(-45deg);
+}
+
+
+    .pirinola-tip{
+      position:absolute;
+      bottom:-16px;
+      width:0;
+      height:0;
+      border-left:10px solid transparent;
+      border-right:10px solid transparent;
+      border-top:20px solid #7c2d12;
+      filter:drop-shadow(0 4px 4px rgba(0,0,0,0.7));
+    }
+
+    .pirinola-top{
+      position:absolute;
+      top:-12px;
+      width:10px;
+      height:20px;
+      border-radius:999px;
+      background:#fef3c7;
+      border:2px solid rgba(124,45,18,0.5);
+    }
+
+    .pirinola-body.toma{
+      background:linear-gradient(135deg,#bbf7d0,#16a34a);
+      border-color:rgba(21,128,61,0.9);
+    }
+
+    .pirinola-body.medas{
+      background:linear-gradient(135deg,#fecaca,#dc2626);
+      border-color:rgba(153,27,27,0.95);
+    }
+
+    .pirinola-body.todos{
+      background:linear-gradient(135deg,#fef3c7,#fbbf24);
+      border-color:rgba(180,83,9,0.95);
+    }
+
+    @keyframes pirinola-spin{
+      from{transform:rotate(45deg);}
+      to{transform:rotate(405deg);}
+    }
+
+    @keyframes pirinola-wobble{
+      0%{transform:translateY(0) rotate(0deg);}
+      25%{transform:translateY(1px) rotate(-4deg);}
+      50%{transform:translateY(0) rotate(3deg);}
+      75%{transform:translateY(-1px) rotate(-2deg);}
+      100%{transform:translateY(0) rotate(0deg);}
+    }
+
+    .pirinola.spinning{
+      animation:pirinola-wobble 0.5s ease-in-out infinite;
+    }
+
+    .pirinola.spinning .pirinola-body{
+      animation:pirinola-spin 0.45s linear infinite;
+    }
+
+    .spin-cta{
+      margin-top:4px;
+      padding:8px 18px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      background:linear-gradient(90deg,var(--verde-oscuro),var(--rojo-oscuro));
+      color:#f9fafb;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      box-shadow:0 0 16px rgba(250,250,250,0.22);
+    }
+
+    .right{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      justify-content:flex-start;
+    }
+
+    .section-title{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      color:var(--crema);
+      margin-bottom:2px;
+    }
+
+    .players-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:4px;
+      min-height:26px;
+      max-height:60px;
+      overflow-y:auto;
+    }
+
+    .player-chip{
+      background:rgba(22,163,74,0.25);
+      border-radius:999px;
+      padding:3px 22px 3px 8px;
+      font-size:13px;
+      border:1px solid rgba(22,163,74,0.7);
+      position:relative;
+    }
+
+    .player-chip.current{
+      background:rgba(220,38,38,0.35);
+      border-color:rgba(220,38,38,0.95);
+    }
+
+    .delete-x{
+      position:absolute;
+      right:5px;
+      top:1px;
+      font-size:11px;
+      font-weight:900;
+      cursor:pointer;
+      color:#ff4d4d;
+    }
+
+    .no-players{
+      font-size:11px;
+      color:var(--muted);
+    }
+
+    .input-row{
+      display:flex;
+      gap:4px;
+      margin-top:4px;
+    }
+
+    .input-row input{
+      flex:1;
+      padding:6px 9px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.9);
+      background:rgba(15,23,42,0.9);
+      color:var(--texto);
+      font-size:11px;
+      outline:none;
+    }
+
+    .input-row button{
+      padding:6px 9px;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(90deg,var(--verde-oscuro),var(--rojo-oscuro));
+      color:#f9fafb;
+      font-size:10px;
+      font-weight:700;
+      cursor:pointer;
+      white-space:nowrap;
+      text-transform:uppercase;
+    }
+
+    .result-main{
+      margin-top:4px;
+      padding:8px 9px;
+      border-radius:14px;
+      background:rgba(15,23,42,0.97);
+      border:1px solid rgba(250,204,21,0.85);
+      position:relative;
+      overflow:hidden;
+      font-size:11px;
+    }
+
+    .result-main.flash{
+      animation:flash-glow 0.8s ease-out;
+    }
+
+    @keyframes flash-glow{
+      0%{box-shadow:0 0 0 rgba(250,204,21,0);transform:scale(1);}
+      30%{box-shadow:0 0 30px rgba(250,204,21,0.95);transform:scale(1.02);}
+      100%{box-shadow:0 0 0 rgba(250,204,21,0);transform:scale(1);}
+    }
+
+    .result-label{
+      font-size:16px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .result-player{
+      font-size:14px;
+      margin-top:2px;
+      color:var(--crema);
+    }
+
+    .result-desc{
+      font-size:14px;
+      margin-top:2px;
+      color:var(--muted);
+    }
+
+    .scoreboard{
+      margin-top:6px;
+      padding-top:4px;
+      border-top:1px dashed rgba(148,163,184,0.7);
+    }
+
+    .scoreboard-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:4px;
+      margin-bottom:3px;
+      flex-wrap:wrap;
+    }
+
+    .scoreboard-title{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:0.10em;
+      color:var(--crema);
+    }
+
+    .scoreboard-buttons{
+      display:flex;
+      gap:4px;
+      flex-wrap:wrap;
+    }
+
+    .reset-btn,
+    .reset-game-btn{
+      font-size:9px;
+      padding:3px 7px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      text-transform:uppercase;
+      font-weight:700;
+      background:rgba(148,163,184,0.25);
+      color:var(--texto);
+      white-space:nowrap;
+    }
+
+    .reset-game-btn{
+      background:rgba(220,38,38,0.35);
+      color:#fee2e2;
+    }
+
+    .coins-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:13px;
+      margin-top:2px;
+    }
+
+    .coins-table thead{
+      background:rgba(15,23,42,0.9);
+    }
+
+    .coins-table th,
+    .coins-table td{
+      padding:3px 4px;
+      text-align:left;
+    }
+
+    .coins-table th{
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      color:var(--crema);
+      border-bottom:1px solid rgba(148,163,184,0.7);
+    }
+
+    .coins-table tr:nth-child(even) td{
+      background:rgba(15,23,42,0.5);
+    }
+
+    .coins-table tr:nth-child(odd) td{
+      background:rgba(15,23,42,0.2);
+    }
+
+    .coins-table tr:first-child td{
+      background:rgba(22,163,74,0.3);
+      font-weight:700;
+    }
+
+    @media (max-height:700px){
+      .card{
+        max-height:96vh;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO -->
+  <div id="introScreen" class="screen">
+    <div class="intro-card">
+      <div class="intro-title">Pirinola de Invitados</div>
+      <div class="intro-subtitle">
+        Explica rápido las reglas a tus invitados antes de empezar el juego.
+      </div>
+
+      <div class="rules-list">
+        <p>✔ Sólo pueden jugar <b>invitados del LIVE</b>.</p>
+        <p>✔ Cada invitado debe dar <b id="introLikesText">500 Likes</b> para participar.</p>
+        <p>✔ Cuando cumplan, escriben <b>GIRO</b> en el chat.</p>
+        <p>✔ El Host agrega al invitado a la lista con un click.</p>
+        <p>✔ La pirinola puede mandar <b>diferentes cantidades de Coins</b> al invitado o al Host.</p>
+        <p>✔ Existen premios raros: <b>TODOS TE MANDAN</b> y <b>LA CASA GANA</b> (si están activados).</p>
+        <p>✔ El marcador muestra quién va ganando en Coins.</p>
+      </div>
+
+      <div class="intro-actions">
+        <button class="setup-btn" onclick="openSetup()">Setup</button>
+        <button class="next-btn" onclick="startGame()">Siguiente</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP -->
+  <div id="setupScreen" class="screen">
+    <div class="setup-card">
+      <div class="setup-title">Setup del Juego</div>
+      <div class="setup-subtitle">
+        Cambia likes, nombres, cantidades y el porcentaje (peso) de cada premio.
+      </div>
+
+      <div class="setup-group">
+        <label class="setup-label" for="likesInput">
+          Likes requeridos para poder girar:
+        </label>
+        <input id="likesInput" class="setup-input" type="number" min="1" step="1" value="500">
+      </div>
+
+      <div class="setup-group">
+        <span class="setup-label">Premios especiales:</span>
+        <label class="setup-checkbox-row">
+          <input type="checkbox" id="chkTodos" checked>
+          <span>Activar “TODOS TE MANDAN”</span>
+        </label>
+        <label class="setup-checkbox-row">
+          <input type="checkbox" id="chkCasa" checked>
+          <span>Activar “LA CASA GANA”</span>
+        </label>
+      </div>
+
+      <div class="setup-group">
+        <span class="setup-label">Lista de premios:</span>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">
+          El campo <b>%</b> es el peso de ese premio. El juego usa esos valores para calcular las probabilidades.
+        </div>
+        <div id="prizeList"></div>
+      </div>
+
+      <div class="setup-actions">
+        <button class="setup-btn-secondary" type="button" onclick="cancelSetup()">Cancelar</button>
+        <button class="setup-btn-primary"   type="button" onclick="saveSetup()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div id="gameScreen" class="screen">
+    <div class="back-btn" onclick="goBack()">⮜ Atrás</div>
+
+    <div class="overlay-root">
+      <div class="card">
+
+        <div class="banner">
+          <div class="banner-franja franja-verde"></div>
+          <div class="banner-franja franja-blanca"></div>
+          <div class="banner-franja franja-roja"></div>
+        </div>
+
+        <div class="title">Pirinola de Invitados</div>
+        <div class="subtitle">
+          Sólo invitados con <b id="gameLikesText">500 Likes</b> y que escriban <b>GIRO</b>.
+        </div>
+
+        <div class="left">
+          <div class="pirinola-wrapper">
+            <div class="pirinola" id="pirinola">
+              <div class="pirinola-body" id="pirinolaBody">
+                <div class="pirinola-label" id="pirinolaLabel">LISTO</div>
+              </div>
+              <div class="pirinola-tip"></div>
+              <div class="pirinola-top"></div>
+            </div>
+          </div>
+          <button id="spinBtn" class="spin-cta">GIRAR</button>
+        </div>
+
+        <div class="right">
+          <div>
+            <div class="section-title">Invitados en cola</div>
+            <div id="players" class="players-list">
+              <span class="no-players" id="noPlayersText">No hay invitados aún.</span>
+            </div>
+
+            <div class="input-row">
+              <input id="playerInput" type="text" placeholder="Nombre del invitado…" />
+              <button id="addPlayerBtn" type="button">Agregar</button>
+            </div>
+          </div>
+
+          <div class="result-main" id="resultBox">
+            <div id="resultLabel" class="result-label">Esperando giro…</div>
+            <div id="resultPlayer" class="result-player"></div>
+            <div id="resultDesc" class="result-desc">
+              Agrega invitados cuando escriban GIRO.
+            </div>
+
+            <div class="scoreboard">
+              <div class="scoreboard-header">
+                <div class="scoreboard-title">Marcador de Coins</div>
+                <div class="scoreboard-buttons">
+                  <button id="resetScoresBtn" class="reset-btn" type="button">
+                    Reset marcador
+                  </button>
+                  <button id="resetGameBtn" class="reset-game-btn" type="button">
+                    Reset juego
+                  </button>
+                </div>
+              </div>
+              <table class="coins-table">
+                <thead>
+                  <tr>
+                    <th>Jugador</th>
+                    <th>Coins</th>
+                  </tr>
+                </thead>
+                <tbody id="coinsTableBody">
+                  <tr>
+                    <td colspan="2" style="font-size:11px;color:var(--muted);text-align:center;">
+                      Aún sin movimientos.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Sonidos opcionales (si quieres, pon archivos con esos nombres en la misma carpeta) -->
+  <audio id="sound-spin"      src="spin.mp3"></audio>
+  <audio id="sound-small-win" src="small_win.mp3"></audio>
+  <audio id="sound-small-lose"src="small_lose.mp3"></audio>
+  <audio id="sound-big-win"   src="big_win.mp3"></audio>
+  <audio id="sound-big-lose"  src="big_lose.mp3"></audio>
+
+  <script>
+    let likesRequired = 500;
+    let enableTodos = true;
+    let enableCasa = true;
+
+    const CASA_ID = "CASA";
+    const CASA_LABEL = "HOST (La Casa)";
+
+    const prizeConfig = [
+      { id:"toma1",   type:"toma",  label:"TOMA 1",     amount:1,   weight:12 },
+      { id:"medas1",  type:"medas", label:"ME DAS 1",   amount:1,   weight:18 },
+
+      { id:"toma10",  type:"toma",  label:"TOMA 10",    amount:10,  weight:12 },
+      { id:"medas10", type:"medas", label:"ME DAS 10",  amount:10,  weight:16 },
+
+      { id:"toma20",  type:"toma",  label:"TOMA 20",    amount:20,  weight:10 },
+      { id:"medas20", type:"medas", label:"ME DAS 20",  amount:20,  weight:12 },
+
+      { id:"toma30",  type:"toma",  label:"TOMA 30",    amount:30,  weight:7 },
+      { id:"medas30", type:"medas", label:"ME DAS 30",  amount:30,  weight:8 },
+
+      { id:"toma100", type:"toma",  label:"TOMA 100",   amount:100, weight:2 },
+      { id:"medas100",type:"medas", label:"ME DAS 100", amount:100, weight:3 },
+
+      { id:"todos",   type:"todos", label:"TODOS TE MANDAN", amount:0, weight:1 },
+      { id:"casa",    type:"casa",  label:"LA CASA GANA",    amount:0, weight:1 }
+    ];
+
+    const todosAmounts = [1,10,20,30,100];
+
+    function startGame(){
+      document.getElementById("introScreen").style.display="none";
+      document.getElementById("setupScreen").style.display="none";
+      document.getElementById("gameScreen").style.display="flex";
+    }
+
+    function goBack(){
+      document.getElementById("gameScreen").style.display="none";
+      document.getElementById("setupScreen").style.display="none";
+      document.getElementById("introScreen").style.display="flex";
+    }
+
+    function openSetup(){
+      document.getElementById("introScreen").style.display="none";
+      document.getElementById("gameScreen").style.display="none";
+      document.getElementById("setupScreen").style.display="flex";
+
+      document.getElementById("likesInput").value = likesRequired;
+      document.getElementById("chkTodos").checked = enableTodos;
+      document.getElementById("chkCasa").checked  = enableCasa;
+
+      renderPrizeSetup();
+    }
+
+    function cancelSetup(){
+      document.getElementById("setupScreen").style.display="none";
+      document.getElementById("introScreen").style.display="flex";
+    }
+
+    function applyLikesText(){
+      const likesText = likesRequired + " Likes";
+      const introLikes = document.getElementById("introLikesText");
+      const gameLikes  = document.getElementById("gameLikesText");
+      if(introLikes) introLikes.textContent = likesText;
+      if(gameLikes)  gameLikes.textContent  = likesText;
+    }
+
+    function renderPrizeSetup(){
+      const container = document.getElementById("prizeList");
+      if(!container) return;
+      container.innerHTML = "";
+
+      prizeConfig.forEach(p=>{
+        const row = document.createElement("div");
+        row.className = "prize-row";
+
+        const labelVal  = p.label.replace(/\"/g,"&quot;");
+        const weightVal = p.weight;
+
+        let amountHtml;
+        if(p.type==="toma" || p.type==="medas"){
+          amountHtml = `
+            <input
+              id="prize-amount-${p.id}"
+              class="setup-input prize-amount-input"
+              type="number"
+              min="1"
+              step="1"
+              value="${p.amount}"
+            >
+          `;
+        }else{
+          amountHtml = `<span class="prize-amount-placeholder">Auto</span>`;
+        }
+
+        row.innerHTML = `
+          <input
+            id="prize-label-${p.id}"
+            class="setup-input prize-label-input"
+            type="text"
+            value="${labelVal}"
+          >
+          ${amountHtml}
+          <input
+            id="prize-percent-${p.id}"
+            class="setup-input prize-percent-input"
+            type="number"
+            min="0"
+            step="0.1"
+            value="${weightVal}"
+          >
+        `;
+
+        container.appendChild(row);
+      });
+    }
+
+    function saveSetup(){
+      const likesValue = parseInt(document.getElementById("likesInput").value,10);
+      likesRequired = isNaN(likesValue) || likesValue <= 0 ? 500 : likesValue;
+
+      enableTodos = document.getElementById("chkTodos").checked;
+      enableCasa  = document.getElementById("chkCasa").checked;
+
+      prizeConfig.forEach(p=>{
+        const lblEl = document.getElementById("prize-label-"+p.id);
+        if(lblEl){
+          const val = lblEl.value.trim();
+          if(val) p.label = val;
+        }
+
+        if(p.type==="toma" || p.type==="medas"){
+          const amtEl = document.getElementById("prize-amount-"+p.id);
+          if(amtEl){
+            const n = parseInt(amtEl.value,10);
+            if(!isNaN(n) && n>0) p.amount = n;
+          }
+        }
+
+        const percEl = document.getElementById("prize-percent-"+p.id);
+        if(percEl){
+          const w = parseFloat(percEl.value);
+          if(!isNaN(w) && w>=0){
+            p.weight = w;
+          }
+        }
+      });
+
+      applyLikesText();
+
+      document.getElementById("setupScreen").style.display="none";
+      document.getElementById("introScreen").style.display="flex";
+    }
+
+    applyLikesText();
+
+    function chooseOutcome(){
+      let list = prizeConfig.filter(p=>{
+        if(p.type==="todos" && !enableTodos) return false;
+        if(p.type==="casa"  && !enableCasa)  return false;
+        return true;
+      });
+
+      let total = list.reduce((sum,p)=>sum + (p.weight||0), 0);
+
+      if(total <= 0){
+        list.forEach(p=>{ p.weight = 1; });
+        total = list.length;
+      }
+
+      let r = Math.random()*total;
+      for(const p of list){
+        const w = p.weight||0;
+        if(r < w) return {...p};
+        r -= w;
+      }
+      return {...list[list.length-1]};
+    }
+
+    let queue=[];
+    let scores={ [CASA_ID]: 0 };
+
+    const playersEl      = document.getElementById("players");
+    const spinBtn        = document.getElementById("spinBtn");
+    const pirinolaEl     = document.getElementById("pirinola");
+    const pirinolaBody   = document.getElementById("pirinolaBody");
+    const pirinolaLabel  = document.getElementById("pirinolaLabel");
+    const playerInput    = document.getElementById("playerInput");
+    const addPlayerBtn   = document.getElementById("addPlayerBtn");
+    const resultLabel    = document.getElementById("resultLabel");
+    const resultPlayer   = document.getElementById("resultPlayer");
+    const resultDesc     = document.getElementById("resultDesc");
+    const resultBox      = document.getElementById("resultBox");
+    const resetScoresBtn = document.getElementById("resetScoresBtn");
+    const resetGameBtn   = document.getElementById("resetGameBtn");
+
+    const soundSpin       = document.getElementById("sound-spin");
+    const soundSmallWin   = document.getElementById("sound-small-win");
+    const soundSmallLose  = document.getElementById("sound-small-lose");
+    const soundBigWin     = document.getElementById("sound-big-win");
+    const soundBigLose    = document.getElementById("sound-big-lose");
+
+    function renderPlayers(){
+      playersEl.innerHTML="";
+      if(queue.length===0){
+        const span = document.createElement("span");
+        span.className = "no-players";
+        span.textContent = "No hay invitados aún.";
+        playersEl.appendChild(span);
+        return;
+      }
+      queue.forEach((name,i)=>{
+        const chip=document.createElement("div");
+        chip.className="player-chip"+(i===0?" current":"");
+        chip.textContent="@"+name;
+
+        const x=document.createElement("div");
+        x.className="delete-x";
+        x.textContent="✕";
+        x.onclick=()=>{
+          queue=queue.filter(n=>n!==name);
+          renderPlayers();
+        };
+
+        chip.appendChild(x);
+        playersEl.appendChild(chip);
+      });
+    }
+
+    function renderScores(){
+      const body = document.getElementById("coinsTableBody");
+      if(!body) return;
+
+      body.innerHTML = "";
+
+      if (scores[CASA_ID] === undefined) {
+        scores[CASA_ID] = 0;
+      }
+
+      const entries = Object.entries(scores);
+
+      if(entries.length === 0){
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 2;
+        cell.style.fontSize = "11px";
+        cell.style.color = "var(--muted)";
+        cell.style.textAlign = "center";
+        cell.textContent = "Aún sin movimientos.";
+        row.appendChild(cell);
+        body.appendChild(row);
+        return;
+      }
+
+      const casaCoins = scores[CASA_ID] || 0;
+      const casaRow = document.createElement("tr");
+      const casaNameCell = document.createElement("td");
+      const casaCoinsCell = document.createElement("td");
+      casaNameCell.textContent = CASA_LABEL;
+      casaCoinsCell.textContent = casaCoins;
+      casaRow.appendChild(casaNameCell);
+      casaRow.appendChild(casaCoinsCell);
+      body.appendChild(casaRow);
+
+      const others = entries.filter(([name]) => name !== CASA_ID);
+      others.sort((a,b) => b[1] - a[1]);
+
+      others.forEach(([name,coins]) => {
+        const row = document.createElement("tr");
+        const nameCell = document.createElement("td");
+        const coinsCell = document.createElement("td");
+        nameCell.textContent = "@"+name;
+        coinsCell.textContent = coins;
+        row.appendChild(nameCell);
+        row.appendChild(coinsCell);
+        body.appendChild(row);
+      });
+    }
+
+    addPlayerBtn.onclick=()=>{
+      const n=playerInput.value.trim().replace(/^@+/,"");
+      if(n){
+        if(!queue.includes(n)) queue.push(n);
+        if(scores[n]===undefined) scores[n]=0;
+        renderPlayers();
+        renderScores();
+      }
+      playerInput.value="";
+    };
+
+    resetScoresBtn.onclick=()=>{
+      Object.keys(scores).forEach(k=>scores[k]=0);
+      renderScores();
+    };
+
+    resetGameBtn.onclick=()=>{
+      queue = [];
+      scores = { [CASA_ID]: 0 };
+      renderPlayers();
+      renderScores();
+      resultLabel.textContent = "Esperando giro…";
+      resultPlayer.textContent = "";
+      resultDesc.textContent = "Agrega invitados cuando escriban GIRO.";
+      resultBox.classList.remove("flash");
+      pirinolaLabel.textContent = "LISTO";
+      pirinolaBody.classList.remove("toma","medas","todos");
+    };
+
+    let spinning=false;
+
+    function playOutcomeSound(isBig,isLose){
+      try{
+        if(isBig && !isLose && soundBigWin)      soundBigWin.play();
+        else if(isBig && isLose && soundBigLose) soundBigLose.play();
+        else if(!isBig && !isLose && soundSmallWin)  soundSmallWin.play();
+        else if(!isBig && isLose && soundSmallLose)  soundSmallLose.play();
+      }catch(e){}
+    }
+
+    function setPirinolaStyleByOutcomeType(type){
+      pirinolaBody.classList.remove("toma","medas","todos");
+      if(type==="toma"){
+        pirinolaBody.classList.add("toma");
+      }else if(type==="medas"){
+        pirinolaBody.classList.add("medas");
+      }else if(type==="todos" || type==="casa"){
+        pirinolaBody.classList.add("todos");
+      }
+    }
+
+    spinBtn.onclick=()=>{
+      if(spinning) return;
+      if(queue.length===0){
+        resultLabel.textContent="Sin invitados";
+        resultPlayer.textContent="";
+        resultDesc.textContent="Agrega invitados con " + likesRequired + " Likes.";
+        pirinolaLabel.textContent = "SIN INVITADOS";
+        pirinolaBody.classList.remove("toma","medas","todos");
+        return;
+      }
+
+      spinning=true;
+      pirinolaEl.classList.add("spinning");
+      resultBox.classList.remove("flash");
+      pirinolaBody.classList.remove("toma","medas","todos");
+
+      try{ soundSpin && soundSpin.play(); }catch(e){}
+
+      const current=queue.shift();
+      renderPlayers();
+
+      resultLabel.textContent="Girando…";
+      resultPlayer.textContent="";
+      resultDesc.textContent="...";
+      pirinolaLabel.textContent="...";
+
+      setTimeout(()=>{
+        let outcome=chooseOutcome();
+
+        let amount = outcome.amount;
+        let deltaPlayer = 0;
+        let deltaCasa   = 0;
+        let desc   = "";
+        const type = outcome.type;
+
+        if(type==="toma"){
+          deltaPlayer = amount;
+          deltaCasa   = -amount;
+          desc  = `El Host te manda ${amount} COINS.`;
+        }else if(type==="medas"){
+          deltaPlayer = -amount;
+          deltaCasa   = amount;
+          desc  = `Manda al Host ${amount} COINS.`;
+        }else if(type==="todos" || type==="casa"){
+          amount = todosAmounts[Math.floor(Math.random()*todosAmounts.length)];
+
+          if(type==="todos"){
+            deltaPlayer = amount;
+            deltaCasa   = 0;
+            desc = `TODOS te mandan ${amount} COINS.`;
+          }else{
+            deltaPlayer = 0;
+            deltaCasa   = amount;
+            desc = `Todos le mandan ${amount} COINS al Host.`;
+          }
+        }
+
+        pirinolaEl.classList.remove("spinning");
+        spinning=false;
+
+        if(scores[current]===undefined) scores[current]=0;
+        if(scores[CASA_ID]===undefined) scores[CASA_ID]=0;
+
+        scores[current] += deltaPlayer;
+        scores[CASA_ID] += deltaCasa;
+
+        if(type === "casa"){
+          resultPlayer.textContent = CASA_LABEL + " recibe Coins.";
+        }else{
+          resultPlayer.textContent = "Invitado: @"+current;
+        }
+
+        renderScores();
+
+        setPirinolaStyleByOutcomeType(type);
+
+        pirinolaLabel.textContent = outcome.label;
+        resultLabel.textContent   = outcome.label;
+        resultDesc.textContent    = desc;
+
+        resultBox.classList.remove("flash");
+        void resultBox.offsetWidth;
+        resultBox.classList.add("flash");
+
+        const isBig  = Math.abs(amount)===100;
+        const isLose = (type==="medas");
+        playOutcomeSound(isBig,isLose);
+      },1500);
+    };
+
+    renderPlayers();
+    renderScores();
+  </script>
+</body>
+</html>
